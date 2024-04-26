@@ -21,6 +21,57 @@ def step_impl(context, usuario, senha):
     context.driver.find_element(By.ID, "password").send_keys(senha)    # preencher a senha
     context.driver.find_element(By.ID, "login-button").click()         # cliclar no botão login
 
+@then(u'sou direcionado para página Home')
+def step_impl(context):
+    assert context.driver.find_element(By.CSS_SELECTOR, ".title").text == "Products"
+    # time.sleep(2) # espera por 2 segundos - remover depois = alfinete
+
+    # validar se esta na pagina Products
+@given(u'que estou na pagina de Products')
+def step_impl(context):
+     assert context.driver.find_element(By.CSS_SELECTOR, ".title").text == "Products"
+    
+
+@when(u'clico no botão Add to cart para adicionar um produto no carrinho')
+def step_impl(context):
+    assert context.driver.find_element(By.CLASS_NAME, "inventory_item_name").text == "Sauce Labs Backpack"
+    context.driver.find_element(By.ID, "add-to-cart-sauce-labs-backpack").click()    # clicar no botão add to cart
+    
+
+@when(u'clico no icone do carrinho')
+def step_impl(context):
+    context.driver.find_element(By.CLASS_NAME, "shopping_cart_link").click() # clicar no icone do carrinho 
+
+
+@when(u'valido a quantidade de produtos')
+def step_impl(context):
+    assert context.driver.find_element(By.CSS_SELECTOR, "div.cart_quantity[data-test='item-quantity']").text == "1"
+
+
+@when(u'valido o nome do produto')
+def step_impl(context):
+    assert context.driver.find_element(By.CSS_SELECTOR, "div.inventory_item_name[data-test='inventory-item-name']" ).text == "Sauce Labs Backpack"
+   
+
+@when(u'valido o preco do produto')
+def step_impl(context):
+    assert context.driver.find_element(By.CSS_SELECTOR, "div.inventory_item_price[data-test='inventory-item-price']").text == "$29.99"
+    
+
+
+@when(u'clico no botão remover')
+def step_impl(context):
+    context.driver.find_element(By.CSS_SELECTOR, "button[data-test='remove-sauce-labs-backpack']").click()
+   
+
+@then(u'clico no menu hamburger e clico em logout')
+def step_impl(context):
+    context.driver.find_element(By.ID, "react-burger-menu-btn").click()
+    context.driver.find_element(By.ID, "logout_sidebar_link").click()
+
+    # teardown / encerramento 
+    context.driver.quit()
+
 # Preencher com usuário em branco e senha
 @when(u'preencho os campos de login com usuario  e senha {senha}')
 def step_impl(context, senha):
@@ -55,14 +106,6 @@ def step_impl(context, usuario, senha):
 
     context.driver.find_element(By.ID, "login-button").click()         # cliclar no botão login
 
-   
-@then(u'sou direcionado para página Home')
-def step_impl(context):
-    assert context.driver.find_element(By.CSS_SELECTOR, ".title").text == "Products"
-    # time.sleep(2) # espera por 2 segundos - remover depois = alfinete
-
-    # teardown / encerramento 
-    context.driver.quit()
 
 @then(u'exibe a mensagem de erro no login')
 def step_impl(context):

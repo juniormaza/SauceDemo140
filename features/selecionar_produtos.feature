@@ -4,6 +4,14 @@ Feature: Selecionar Produto
         Given que acesso o site Sauce Demo
         When preencho os campos de login com usuario standard_user e senha secret_sauce
         Then sou direcionado para página Home
+        Given que estou na pagina de Products
+        When clico no botão Add to cart para adicionar um produto no carrinho 
+        When clico no icone do carrinho 
+        When valido a quantidade de produtos
+        When valido o nome do produto 
+        When valido o preco do produto
+        When clico no botão remover 
+        Then clico no menu hamburger e clico em logout
 
     Scenario: Login com a senha invalida
         Given que acesso o site Sauce Demo
